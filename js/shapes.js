@@ -19,19 +19,33 @@ window.onload = function() {
     // equivalent set of six event listeners for your solutions. the first one is done for you.
 
     document.getElementById("hello").onclick = sayHello;
+    document.getElementById("rectangle").onclick = drawRectangle;
 }
 
  //Exercise 1.
 
 const sayHello = function() {
-  ctx.font = '48px sans-serif';
-  ctx.strokeText('Hello world', 30, 70);
+  let message = prompt("Message:");
+  const ctx = document.getElementById('student-canvas-1').getContext('2d');
+  ctx.font = '48px serif';
+  ctx.strokeText(message, 30, 70);
+  message.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 //Exercise 2
 
 const drawRectangle = function() {
-    // write your exercise 2 code here
+  const outline = document.getElementById('student-canvas-2').getContext("2d");
+  while(x < 1 || y < 1) {
+    var x = prompt("X-coordinate: ");
+    var y = prompt("Y-coordinate: ");
+  }
+  while(width < 1 || width > canvas.width || height < 1 || height > canvas.height) {
+    var width = prompt("Width: ");
+    var height = prompt("Height: ");
+  }
+  outline.strokeRect(x, y, width, height);
+  outline.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 /*
@@ -63,5 +77,7 @@ const drawFace = function() {
  */
 
 const drawPyramid = function() {
-    // write your exercise 5 code here
+  do {
+    let block = prompt("Block side length: ");
+  } while (block < 1)
 };
