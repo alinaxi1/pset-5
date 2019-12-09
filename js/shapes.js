@@ -116,7 +116,20 @@ const drawFace = function() {
  */
 
 const drawPyramid = function() {
+  const canvas = document.getElementById('student-canvas-3');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   do {
-    let block = prompt("Block side length: ");
-  } while (block < 1)
+    var block = prompt("Side: ");
+    if (block < 1) {
+      alert("Your block size must be at least 1.");
+    } else if (block > canvas.height || block > canvas.width){
+      alert("Your pyramid won't fit on canvas.");
+    } else {
+      alert("Your block size is not a number.")
+    }
+    
+  } while (block < 1 || block > canvas.height || block > canvas.width || isNaN(block));
+
 };
