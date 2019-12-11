@@ -104,6 +104,9 @@ const drawColoredRectangle = function() {
   color = color.toLowerCase().trim();
 
   while (color != "black" && color != "blue" && color != "green" && color != "orange" && color != "purple" && color != "red" && color != "yellow") {
+    if (color == null) {
+      break;
+    }
     alert(color + " is not a supported color.");
     color = prompt("Color: ");
   }
@@ -121,20 +124,46 @@ const drawTriangle = function() {
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  let height = prompt("Height: ");
-  let hypotenuse = prompt("Hypotenuse: ");
-  let base = prompt("Base: ");
+  let side1 = Number(prompt("Side 1: "));
+  let side2 = Number(prompt("Side 2: "));
+  let side3 = Number(prompt("Side 3: "));
 
-  while (((height * height) != (hypotenuse * hypotenuse) + (base * base)) || height > 512 || height < 1 || base > 1024 || base < 1 || hypotenuse < 1) {
-    alert("That's not a valid right triangle.");
+  let height = Math.min(side1, side2, side3);
+  let hypotenuse = Math.max(side1, side2, side3);
+  let base = Math.sqrt((hypotenuse*hypotenuse) - (height*height));
+
+  while (((height*height) != (hypotenuse*hypotenuse) - (base*base)) || height > 512 || height < 1 || base > 1024 || base < 1 || hypotenuse < 1 || isNaN(side1) || isNaN(side2) || isNaN(side3)) {
+
+    if (side1 == 0 && side2 == 0 && side3 == 0) {
+      break;
+    }
+
+    if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
+      alert("One of your sides is not a number.");
+    }
+
+    if ((hypotenuse*hypotenuse) != (height*height) + (base*base) || base == 0 || height == 0 || hypotenuse == 0  || side1 + side2 + side3 - hypotenuse - height != base) {
+      alert("That's not a valid right triangle.");
+    }
+
+    if (base > 1024 || height > 512 || hypotenuse > 1144) {
+      alert("Your triangle won't fit on the canvas.");
+    }
+
+    side1 = Number(prompt("Side 1: "));
+    side2 = Number(prompt("Side 2: "));
+    side3 = Number(prompt("Side 3: "));
+
   }
 
-ctx.beginPath();
-ctx.moveTo(25, 25);
-ctx.lineTo(25, 25 + height / 10);
-ctx.lineTo(25 + base, 25 + height);
-ctx.closePath();
-ctx.stroke();
+  if (((height*height) == (hypotenuse*hypotenuse) - (base*base)) && base <= 1024 && height <= 512 && hypotenuse <= 1144 && height > 0 && base > 0 && hypotenuse > 0) {
+    ctx.beginPath();
+    ctx.moveTo(25, 25);
+    ctx.lineTo(25, height + 25);
+    ctx.lineTo(base + 25, height + 25);
+    ctx.closePath();
+    ctx.stroke();
+  }
 
 };
 
@@ -143,7 +172,9 @@ ctx.stroke();
  */
 
 const drawFace = function() {
-    // write your exercise 4 code here
+  const canvas = document.getElementById('student-canvas-5');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 /*
@@ -151,9 +182,15 @@ const drawFace = function() {
  */
 
 const drawPyramid = function() {
-  const canvas = document.getElementById('student-canvas-3');
+  const canvas = document.getElementById('student-canvas-6');
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  var distance = 0
+  var height = 0
+  var row = 0
+  var column = 0
+  var counter = 5
 
   do {
     var block = prompt("Side: ");
@@ -163,14 +200,25 @@ const drawPyramid = function() {
     } else if (block > canvas.height || block > canvas.width){
       alert("Your pyramid won't fit on canvas.");
     } else if (isNaN(block)){
-      alert("Your block size is not a number.")
+      alert("Your block size is not a number.");
     }
-
-    for (var k = 0; k <= 5; k++){
-      ctx.strokeRect(10, 10, block, block);
-    }
-
 
   } while (block < 1 || block > canvas.height || block > canvas.width || isNaN(block));
+
+  for (i = 5; i > 0; i--) {
+    counter = i
+    while(counter >= 1) {
+      ctx.beginPath();
+      ctx.rect(10 + Number(distance), (502 - block) - Number(height), Number(block), Number(block));
+      ctx.stroke();
+      ctx.closePath();
+      distance = Number(distance) + Number(block);
+      counter--;
+    }
+    row++;
+    distance = row * (1/2 * block);
+    column++;
+    height = column * block;
+  }
 
 };
