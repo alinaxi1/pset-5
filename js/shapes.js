@@ -140,14 +140,10 @@ const drawTriangle = function() {
 
     if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
       alert("One of your sides is not a number.");
-    }
-
-    if ((hypotenuse*hypotenuse) != (height*height) + (base*base) || base == 0 || height == 0 || hypotenuse == 0  || side1 + side2 + side3 - hypotenuse - height != base) {
-      alert("That's not a valid right triangle.");
-    }
-
-    if (base > 1024 || height > 512 || hypotenuse > 1144) {
+    } else if (base > 1024 || height > 512 || hypotenuse > 1144) {
       alert("Your triangle won't fit on the canvas.");
+    } else if ((hypotenuse*hypotenuse) != (height*height) + (base*base) || base == 0 || height == 0 || hypotenuse == 0  || side1 + side2 + side3 - hypotenuse - height != base) {
+      alert("That's not a valid right triangle.");
     }
 
     side1 = Number(prompt("Side 1: "));
