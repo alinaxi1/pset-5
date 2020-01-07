@@ -60,35 +60,29 @@ const drawRectangle = function() {
     var x = prompt("X-coordinate: ");
     var y = prompt("Y-coordinate: ");
 
+
+    if (width == null || height == null || x == null || y == null) {
+      break;
+    }
     if (width > 1024 || width < 1) {
-        if (width == null) {
-          break;
-        }
         alert("Your width must be between 1 and 1024.");
-      } else if (height > 512 || height < 1) {
-        if (height == null) {
-           break;
-         }
+    } else if (height > 512 || height < 1) {
         alert("Your height must be between 1 and 512.");
-      } else if (x > 1024 || x < 1) {
-        if (x == null) {
-           break;
-        }
+    } else if (x > 1024 || x < 1) {
         alert("Your x-coordinate must be between 1 and 1024.");
-      } else if (y > 512 || y < 1) {
-        if (y == null) {
-          break;
-        }
+    } else if (y > 512 || y < 1) {
         alert("Your y-coordinate must be between 1 and 512.");
-      } else if (isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y)){
+    } else if (isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y)){
         alert("One of your values is not a number.");
-      } else if (x + width > 1024 || y + height > 512) {
+    } else if (Number(x) + Number(width) > 1024 || Number(y) + Number(height) > 512) {
         alert("Your rectangle won't fit on canvas.")
-      }
+    }
 
-  } while(width < 1 || width > 1024 || height < 1 || height > 512 || x < 1 || y < 1 || x > 1024 || y > 512 || isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y) || x + width > 1024 || y + height > 512);
+  } while(width < 1 || width > 1024 || height < 1 || height > 512 || x < 1 || y < 1 || x > 1024 || y > 512 || isNaN(width) || isNaN(height) || isNaN(x) || isNaN(y) || Number(x) + Number(width) > 1024 || Number(y) + Number(height) > 512);
 
-  ctx.strokeRect(x, y, width, height);
+  if (!(width == null) && !(height == null) && !(x == null) && !(y == null)) {
+    ctx.strokeRect(x, y, width, height);
+  }
 };
 
 /*
@@ -132,7 +126,10 @@ const drawTriangle = function() {
   let hypotenuse = Math.max(side1, side2, side3);
   let base = Math.sqrt((hypotenuse*hypotenuse) - (height*height));
 
-  while (((height*height) != (hypotenuse*hypotenuse) - (base*base)) || height > 512 || height < 1 || base > 1024 || base < 1 || hypotenuse < 1 || isNaN(side1) || isNaN(side2) || isNaN(side3)) {
+  do {
+    side1 = Number(prompt("Side 1: "));
+    side2 = Number(prompt("Side 2: "));
+    side3 = Number(prompt("Side 3: "));
 
     if (side1 == 0 && side2 == 0 && side3 == 0) {
       break;
@@ -140,17 +137,17 @@ const drawTriangle = function() {
 
     if (isNaN(side1) || isNaN(side2) || isNaN(side3)) {
       alert("One of your sides is not a number.");
-    } else if (base > 1024 || height > 512 || hypotenuse > 1144) {
-      alert("Your triangle won't fit on the canvas.");
     } else if ((hypotenuse*hypotenuse) != (height*height) + (base*base) || base == 0 || height == 0 || hypotenuse == 0  || side1 + side2 + side3 - hypotenuse - height != base) {
       alert("That's not a valid right triangle.");
+    } else if (base > 1024 || height > 512 || hypotenuse > 1144) {
+      alert("Your triangle won't fit on the canvas.");
     }
 
     side1 = Number(prompt("Side 1: "));
     side2 = Number(prompt("Side 2: "));
     side3 = Number(prompt("Side 3: "));
 
-  }
+  } while ((Math.floor(base) * Math.floor(base) + height * height != hypotenuse * hypotenuse) || height > 512 || height < 1 || base > 1024 || base < 1 || hypotenuse < 1 || isNaN(side1) || isNaN(side2) || isNaN(side3))
 
   if (((height*height) == (hypotenuse*hypotenuse) - (base*base)) && base <= 1024 && height <= 512 && hypotenuse <= 1144 && height > 0 && base > 0 && hypotenuse > 0) {
     ctx.beginPath();
